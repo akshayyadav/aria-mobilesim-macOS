@@ -104,7 +104,7 @@ export ARIA=$ARIA_EXTRACT_DIR
 export MOBILESIM=$MOBILESIM_EXTRACT_DIR
 export GTK_DIR=/usr/local/Cellar/gtk+/2.24.32_2
 # export LDFLAGS="-L/usr/local/opt/libffi/lib"
-export DYLD_LIBRARY_PATH=/usr/local/lib:$ARIA_EXTRACT_DIR/lib:$GTK_DIR/lib
+export DYLD_LIBRARY_PATH=$ARIA/lib:$GTK_DIR/lib
 export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/Cellar/gtk+/2.24.32_2/lib/pkgconfig
 export PATH=/usr/local/Cellar/gtk+/2.24.32_2/bin:$PATH
 EOF
