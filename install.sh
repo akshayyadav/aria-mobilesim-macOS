@@ -98,7 +98,8 @@ build_mobilesim() {
 }
 
 update_bashrc() {
-  cat >> "$HOME/.bashrc" <<EOF
+
+  cat >> "$BASE_DIR/.bashrc" <<EOF
 export ARIA=$ARIA_EXTRACT_DIR
 export MOBILESIM=$MOBILESIM_EXTRACT_DIR
 export GTK_DIR=/usr/local/Cellar/gtk+/2.24.32_2
@@ -107,14 +108,21 @@ export DYLD_LIBRARY_PATH=/usr/local/lib:$ARIA_EXTRACT_DIR/lib:$GTK_DIR/lib
 export PKG_CONFIG_PATH=/usr/local/opt/libffi/lib/pkgconfig:/usr/local/Cellar/gtk+/2.24.32_2/lib/pkgconfig
 export PATH=/usr/local/Cellar/gtk+/2.24.32_2/bin:$PATH
 EOF
-  echo 'if [ -f ~/.bashrc ]; then . ~/.bashrc; fi' >> "$HOME/.bash_profile"
+  local diff=$(comm -13 <(sort "$HOME/.bashrc") <(sort "$BASE_DIR/.bashrc"))
+  if [[ "$diff" != "" ]]; then
+    if [[ $DRYRUN != "true" ]];then
+      cat "$diff" >> "$HOME/.bashrc"
+      echo 'if [ -f ~/.bashrc ]; then . ~/.bashrc; fi' >> "$HOME/.bash_profile"
+    fi
+  fi
+
 }
 
 run() {
   download_and_untar
   install_xcode_command_line_tools
   update_bashrc
-  source $HOME/.bashrc
+  source "$HOME/.bashrc"
   build_aria
   build_mobilesim
 }
